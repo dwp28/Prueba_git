@@ -6,3 +6,5 @@ print("2")
 print("Esta es la prueba para provar tags")
 
 print("Issues")
+
+print("Pull Requests")
