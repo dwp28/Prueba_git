@@ -9,4 +9,4 @@ print("Issues")
 
 print("Pull Requests")
 
-print("Pull Requests 2")
+print("Pull Requests 2.")
