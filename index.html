@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grado en Ingeniería Informática | UNIE 2026-2027</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14; --surface: #161921; --surface2: #1e2230;
+  --border: #252a3a; --text: #e8eaf0; --text-muted: #7b82a0; --text-dim: #4a5068;
+  --s1: #3b82f6; --s2: #8b5cf6; --accent: #10b981;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+.header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 24px 32px; position: relative; overflow: hidden;
+}
+.header::before {
+  content: ""; position: absolute; top: -80px; left: -80px;
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-inner { max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; }
+.header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+.logo { font-family: "DM Mono", monospace; font-size: 11px; background: var(--surface2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; color: var(--text-dim); letter-spacing: 0.1em; }
+.degree-icon { font-size: 22px; }
+.header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.header-sub { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+.campus-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.campus-pill { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; }
+.cpill-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+
+.campus-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; }
+.campus-inner { max-width: 1300px; margin: 0 auto; display: flex; overflow-x: auto; }
+.campus-tab {
+  padding: 13px 20px; border: none; border-bottom: 2px solid transparent;
+  background: transparent; color: var(--text-muted);
+  font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; transition: all 0.15s;
+}
+.campus-tab:hover { color: var(--text); }
+.campus-tab.active { color: var(--text); }
+
+
+.layout { max-width: 1300px; margin: 0 auto; padding: 24px 32px; display: grid; grid-template-columns: 200px 1fr; gap: 22px; align-items: start; }
+.sidebar { position: sticky; top: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.sidebar-head { padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.grp-list { padding: 7px; }
+.grp-btn {
+  display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 9px;
+  border-radius: 6px; border: none; background: transparent; color: var(--text-muted);
+  font-family: "DM Sans", sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s;
+  text-align: left; margin-bottom: 1px;
+}
+.grp-btn:hover { background: var(--surface2); color: var(--text); }
+.grp-btn.active { background: var(--surface2); color: var(--text); font-weight: 600; }
+.grp-btn .turno-tag { margin-left: auto; font-size: 10px; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+.tt-tarde { background: rgba(99,102,241,0.15); color: #818cf8; }
+.tt-manana { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.campus-tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 500; margin-bottom: 2px; }
+
+.content { min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.card-head { padding: 16px 22px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.card-title { font-size: 15px; font-weight: 600; flex: 1; min-width: 180px; }
+.turno-pill { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; }
+.tp-tarde { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+.tp-manana { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+.campus-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+
+.sem-row { padding: 14px 22px 0; }
+.sem-toggle { display: inline-flex; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+.sem-btn { padding: 7px 18px; border: none; background: transparent; color: var(--text-muted); font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+.sem-btn.s1 { background: var(--s1); color: white; }
+.sem-btn.s2 { background: var(--s2); color: white; }
+
+.tt-wrap { padding: 18px 22px; overflow-x: auto; }
+table.tt { width: 100%; border-collapse: collapse; min-width: 520px; }
+table.tt th { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding: 7px 10px; text-align: center; background: var(--bg); }
+table.tt th:first-child { width: 60px; text-align: right; color: var(--text-dim); }
+table.tt td { padding: 3px; vertical-align: top; }
+table.tt td:first-child { font-family: "DM Mono", monospace; font-size: 11px; color: var(--text-dim); text-align: right; padding-right: 10px; vertical-align: middle; border: none; white-space: nowrap; }
+.tt tr.tr { height: 50px; }
+.sc { background: linear-gradient(135deg,rgba(59,130,246,.14),rgba(59,130,246,.07)); border: 1px solid rgba(59,130,246,.22); border-radius: 5px; padding: 5px 8px; font-size: 11px; line-height: 1.3; height: 100%; display: flex; align-items: center; color: #93c5fd; cursor: default; transition: all .12s; }
+.sc:hover { border-color: rgba(59,130,246,.55); color: #bfdbfe; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(59,130,246,.12); }
+.s2mode .sc { background: linear-gradient(135deg,rgba(139,92,246,.14),rgba(139,92,246,.07)); border-color: rgba(139,92,246,.22); color: #c4b5fd; }
+.s2mode .sc:hover { border-color: rgba(139,92,246,.55); color: #ddd6fe; box-shadow: 0 3px 10px rgba(139,92,246,.12); }
+
+.subj-sec { padding: 0 22px 22px; border-top: 1px solid var(--border); margin-top: 10px; padding-top: 14px; }
+.subj-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 9px; }
+.subj-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 5px; }
+.subj-tag { font-size: 11px; padding: 5px 9px; border-radius: 5px; background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); display: flex; align-items: flex-start; gap: 7px; }
+.sdot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; background: var(--s1); }
+.sdot.s2 { background: var(--s2); }
+.empty { text-align: center; padding: 60px; color: var(--text-dim); font-size: 14px; }
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; padding: 14px; }
+  .sidebar { position: static; }
+  .header, .campus-bar { padding-left: 14px; padding-right: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <span class="logo">UNIE · 2610 · 2026/27</span>
+      <span class="degree-icon">💻</span>
+    </div>
+    <h1>Grado en Ingeniería Informática</h1>
+    <p class="header-sub">Selecciona tu grupo para ver el horario semanal</p>
+    <div class="campus-pills" id="campus-pills"></div>
+  </div>
+</div>
+
+<div class="campus-bar">
+  <div class="campus-inner" id="campus-tabs"></div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-head">Grupos</div>
+    <div class="grp-list" id="grp-list"></div>
+  </aside>
+  <div class="content" id="content">
+    <div class="empty">← Selecciona un grupo</div>
+  </div>
+</div>
+
+<script>
+const DATA = {"Arapiles": [{"sheet": "GrINGI (Plan 2024) 1º A", "title": "Grado en Ingeniería informática (Plan 2024) - 1º A", "turno": "Mañana", "s1": {"LUNES": [{"time": "09:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "10:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "11:00", "subject": "Álgebra"}, {"time": "12:00", "subject": "Álgebra"}], "MARTES": [{"time": "09:00", "subject": "Fundamentos de la Programación"}, {"time": "10:00", "subject": "Fundamentos de la Programación"}, {"time": "11:00", "subject": "Álgebra"}, {"time": "12:00", "subject": "Álgebra"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Organización y Gestión de Empresas"}, {"time": "10:00", "subject": "Organización y Gestión de Empresas"}, {"time": "11:00", "subject": "Cálculo"}, {"time": "12:00", "subject": "Cálculo"}], "JUEVES": [{"time": "09:00", "subject": "Organización y Gestión de Empresas"}, {"time": "10:00", "subject": "Organización y Gestión de Empresas"}, {"time": "11:00", "subject": "Fundamentos de la Programación"}, {"time": "12:00", "subject": "Fundamentos de la Programación"}], "VIERNES": [{"time": "09:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "10:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "11:00", "subject": "Cálculo"}, {"time": "12:00", "subject": "Cálculo"}]}, "s2": {"LUNES": [{"time": "09:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "10:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "11:00", "subject": "Inglés de Negocios"}, {"time": "12:00", "subject": "Inglés de Negocios"}], "MARTES": [{"time": "09:00", "subject": "Inglés de Negocios"}, {"time": "10:00", "subject": "Inglés de Negocios"}, {"time": "11:00", "subject": "Metodologías de Programación"}, {"time": "12:00", "subject": "Metodologías de Programación"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "10:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "11:00", "subject": "Metodologías de Programación"}, {"time": "12:00", "subject": "Metodologías de Programación"}], "JUEVES": [{"time": "09:00", "subject": "Física"}, {"time": "10:00", "subject": "Física"}, {"time": "11:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "12:00", "subject": "Creatividad e Innovación en entornos Digitales"}], "VIERNES": [{"time": "09:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "10:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "11:00", "subject": "Física"}, {"time": "12:00", "subject": "Física"}]}, "subjects_s1": ["Estadística aplicada a la analítica de datos", "Álgebra", "Cálculo", "Fundamentos de la programación", "Organización y Gestión de Empresas"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 2º A", "title": "Grado en Ingeniería informática (Plan 2024) - 2º A", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "16:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "17:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "18:00", "subject": "Info-ética y Legislación del Dato"}], "MARTES": [{"time": "15:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "16:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "17:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "18:00", "subject": "Analítica de datos y Algoritmos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "16:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "17:00", "subject": "Sistemas Operativos"}, {"time": "18:00", "subject": "Sistemas Operativos"}], "JUEVES": [{"time": "15:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "16:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "17:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "18:00", "subject": "Info-ética y Legislación del Dato"}], "VIERNES": [{"time": "15:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "16:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "17:00", "subject": "Sistemas Operativos"}, {"time": "18:00", "subject": "Sistemas Operativos"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Arquitectura de Computadores"}, {"time": "16:00", "subject": "Arquitectura de Computadores"}, {"time": "17:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "18:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}], "MARTES": [{"time": "15:00", "subject": "Arquitectura de Computadores"}, {"time": "16:00", "subject": "Arquitectura de Computadores"}, {"time": "17:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "18:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "16:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "17:00", "subject": "Redes y Conectividad"}, {"time": "18:00", "subject": "Redes y Conectividad"}], "JUEVES": [{"time": "15:00", "subject": "Comunicación en Entornos digitales"}, {"time": "16:00", "subject": "Comunicación en Entornos digitales"}, {"time": "17:00", "subject": "Redes y Conectividad"}, {"time": "18:00", "subject": "Redes y Conectividad"}], "VIERNES": [{"time": "15:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "16:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "17:00", "subject": "Comunicación en Entornos digitales"}, {"time": "18:00", "subject": "Comunicación en Entornos digitales"}]}, "subjects_s1": ["Sistemas Operativos", "Lenguaje natural y Compiladores", "Interfaces usuario‐computador", "Analítica de Datos y Algoritmos", "Info-ética y Legislación del Dato"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 3º A", "title": "Grado en Ingeniería informática (Plan 2024) - 3º A", "turno": "Mañana", "s1": {"LUNES": [{"time": "09:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "10:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "11:00", "subject": "Bases de Datos"}, {"time": "12:00", "subject": "Bases de Datos"}], "MARTES": [{"time": "09:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "10:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "11:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "12:00", "subject": "Gestión y Administración de un Centro de Datos"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Inteligencia Artificial"}, {"time": "10:00", "subject": "Inteligencia Artificial"}, {"time": "11:00", "subject": "Bases de Datos"}, {"time": "12:00", "subject": "Bases de Datos"}], "JUEVES": [{"time": "09:00", "subject": "Inteligencia Artificial"}, {"time": "10:00", "subject": "Inteligencia Artificial"}, {"time": "11:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "12:00", "subject": "Modelos de Digitalización en la empresa"}], "VIERNES": [{"time": "09:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "10:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "11:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "12:00", "subject": "Modelos de Digitalización en la empresa"}]}, "s2": {"LUNES": [{"time": "09:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "10:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "11:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "12:00", "subject": "Digitalización de la cadena de suministros en la empresa"}], "MARTES": [{"time": "09:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "10:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "11:00", "subject": "Gestión de Proyectos de Software"}, {"time": "12:00", "subject": "Gestión de Proyectos de Software"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Calidad del Software"}, {"time": "10:00", "subject": "Calidad del Software"}, {"time": "11:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "12:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}], "JUEVES": [{"time": "09:00", "subject": "Calidad del Software"}, {"time": "10:00", "subject": "Calidad del Software"}, {"time": "11:00", "subject": "Gestión de Proyectos de Software"}, {"time": "12:00", "subject": "Gestión de Proyectos de Software"}], "VIERNES": [{"time": "09:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "10:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "11:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "12:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}]}, "subjects_s1": ["Bases de Datos", "Gestión y Administración de un Centro de Datos", "Seguridad Informática y Ciberseguridad en la empresa", "Inteligencia Artificial", "Modelos de Digitalización en la empresa"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 4º A", "title": "Grado en Ingeniería informática (Plan 2024) - 4º A", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Mantenimiento y Evolución del Software"}, {"time": "16:00", "subject": "Mantenimiento y Evolución del Software"}, {"time": "17:00", "subject": "Desarrollo de Aplicaciones Móviles"}, {"time": "18:00", "subject": "Desarrollo de Aplicaciones Móviles"}], "MARTES": [{"time": "15:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "16:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "17:00", "subject": "Metodologías ágiles para la gestión de proyectos"}, {"time": "18:00", "subject": "Metodologías ágiles para la gestión de proyectos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "16:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "17:00", "subject": "Desarrollo de Aplicaciones Móviles"}, {"time": "18:00", "subject": "Desarrollo de Aplicaciones Móviles"}], "JUEVES": [{"time": "15:00", "subject": "Mantenimiento y Evolución del Software"}, {"time": "16:00", "subject": "Mantenimiento y Evolución del Software"}, {"time": "17:00", "subject": "Metodologías ágiles para la gestión de proyectos"}, {"time": "18:00", "subject": "Metodologías ágiles para la gestión de proyectos"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "16:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "17:00", "subject": "Automatización de Procesos con Robots"}, {"time": "18:00", "subject": "Automatización de Procesos con Robots"}], "MARTES": [{"time": "15:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "16:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "17:00", "subject": "Programación de Videojuegos"}, {"time": "18:00", "subject": "Programación de Videojuegos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "16:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "17:00", "subject": "Automatización de Procesos con Robots"}, {"time": "18:00", "subject": "Automatización de Procesos con Robots"}], "JUEVES": [{"time": "15:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "16:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "17:00", "subject": "Programación de Videojuegos"}, {"time": "18:00", "subject": "Programación de Videojuegos"}]}, "subjects_s1": ["Mantenimiento y Evolución del Software", "Desarrollo de Aplicaciones Móviles", "Liderazgo y gestión de Equipos", "Metodologías ágiles para la gestión de proyectos", "Prácticas Académicas Externas I - Mención Ingeniería del Software y Gestión de Proyectos"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 4º B", "title": "Grado en Ingeniería informática (Plan 2024) - 4º B", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "16:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "17:00", "subject": "Gestión de Partners y Alianzas"}, {"time": "18:00", "subject": "Gestión de Partners y Alianzas"}], "MARTES": [{"time": "15:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "16:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "17:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}, {"time": "18:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Blockchain y ioT"}, {"time": "16:00", "subject": "Blockchain y ioT"}, {"time": "17:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}, {"time": "18:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}], "JUEVES": [{"time": "15:00", "subject": "Blockchain y ioT"}, {"time": "16:00", "subject": "Blockchain y ioT"}, {"time": "17:00", "subject": "Gestión de Partners y Alianzas"}, {"time": "18:00", "subject": "Gestión de Partners y Alianzas"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "16:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "17:00", "subject": "Comprensión y Recuperación de Información Multimedia"}, {"time": "18:00", "subject": "Comprensión y Recuperación de Información Multimedia"}], "MARTES": [{"time": "15:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "16:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "17:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}, {"time": "18:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "16:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "17:00", "subject": "Comprensión y Recuperación de Información Multimedia"}, {"time": "18:00", "subject": "Comprensión y Recuperación de Información Multimedia"}], "JUEVES": [{"time": "15:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "16:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "17:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}, {"time": "18:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}]}, "subjects_s1": ["Arquitecturas de Computadores Avanzadas", "Gestión de Partners y Alianzas", "Servicios Digitales en Ciudades Inteligentes", "Blockchain y ioT", "Prácticas Académicas Externas I - Mención Ingeniería del Software y Gestión de Infraestructuras"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 4º A_M1", "title": "Grado en Ingeniería informática (Plan 2024) - 4º A - Mención en Ingeniería de Software y Gestión de Proyectos", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Desarrollo de Aplicaciones Móviles"}, {"time": "16:00", "subject": "Desarrollo de Aplicaciones Móviles"}, {"time": "17:00", "subject": "Mantenimiento y Evolución del Software"}, {"time": "18:00", "subject": "Mantenimiento y Evolución del Software"}], "MARTES": [{"time": "15:00", "subject": "Metodologías ágiles para la gestión de proyectos"}, {"time": "16:00", "subject": "Metodologías ágiles para la gestión de proyectos"}, {"time": "17:00", "subject": "Desarrollo de Aplicaciones Móviles"}, {"time": "18:00", "subject": "Desarrollo de Aplicaciones Móviles"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "16:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "17:00", "subject": "Mantenimiento y Evolución del Software"}, {"time": "18:00", "subject": "Mantenimiento y Evolución del Software"}], "JUEVES": [{"time": "15:00", "subject": "Metodologías ágiles para la gestión de proyectos"}, {"time": "16:00", "subject": "Metodologías ágiles para la gestión de proyectos"}, {"time": "17:00", "subject": "Liderazgo y gestión de Equipos"}, {"time": "18:00", "subject": "Liderazgo y gestión de Equipos"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "16:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "17:00", "subject": "Automatización de Procesos con Robots"}, {"time": "18:00", "subject": "Automatización de Procesos con Robots"}], "MARTES": [{"time": "15:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "16:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "17:00", "subject": "Programación de Videojuegos"}, {"time": "18:00", "subject": "Programación de Videojuegos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "16:00", "subject": "Ingeniería del Software de componentes y sistemas distribuidos"}, {"time": "17:00", "subject": "Automatización de Procesos con Robots"}, {"time": "18:00", "subject": "Automatización de Procesos con Robots"}], "JUEVES": [{"time": "15:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "16:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "17:00", "subject": "Programación de Videojuegos"}, {"time": "18:00", "subject": "Programación de Videojuegos"}]}, "subjects_s1": ["Mantenimiento y Evolución del Software", "Desarrollo de Aplicaciones Móviles", "Liderazgo y gestión de Equipos", "Metodologías ágiles para la gestión de proyectos", "Prácticas Académicas Externas I - Mención Ingeniería del Software y Gestión de Proyectos"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 4º B_M2", "title": "Grado en Ingeniería informática (Plan 2024) - 4º A - Mención en Ingeniería y Gestión de Infraestructuras", "turno": "tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "16:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "17:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}, {"time": "18:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}], "MARTES": [{"time": "15:00", "subject": "Blockchain y ioT"}, {"time": "16:00", "subject": "Blockchain y ioT"}, {"time": "17:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}, {"time": "18:00", "subject": "Servicios Digitales en Ciudades Inteligentes"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Gestión de Partners y Alianzas"}, {"time": "16:00", "subject": "Gestión de Partners y Alianzas"}, {"time": "17:00", "subject": "Blockchain y ioT"}, {"time": "18:00", "subject": "Blockchain y ioT"}], "JUEVES": [{"time": "15:00", "subject": "Gestión de Partners y Alianzas"}, {"time": "16:00", "subject": "Gestión de Partners y Alianzas"}, {"time": "17:00", "subject": "Arquitecturas de Computadoras Avanzadas"}, {"time": "18:00", "subject": "Arquitecturas de Computadoras Avanzadas"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Comprensión y Recuperación de Información Multimedia"}, {"time": "16:00", "subject": "Comprensión y Recuperación de Información Multimedia"}, {"time": "17:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "18:00", "subject": "Habilidades de escritura para ingeniería"}], "MARTES": [{"time": "15:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}, {"time": "16:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}, {"time": "17:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "18:00", "subject": "Administración de Gestores de Bases de Datos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "16:00", "subject": "Administración de Gestores de Bases de Datos"}, {"time": "17:00", "subject": "Comprensión y Recuperación de Información Multimedia"}, {"time": "18:00", "subject": "Comprensión y Recuperación de Información Multimedia"}], "JUEVES": [{"time": "15:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}, {"time": "16:00", "subject": "Sistemas Digitales Empotrados y de Tiempo Real"}, {"time": "17:00", "subject": "Habilidades de escritura para ingeniería"}, {"time": "18:00", "subject": "Habilidades de escritura para ingeniería"}]}, "subjects_s1": ["Arquitecturas de Computadoras Avanzadas", "Gestión de Partners y Alianzas", "Servicios Digitales en Ciudades Inteligentes", "Blockchain y ioT", "Prácticas Académicas Externas I - Mención Ingeniería y Gestión de Infraestructuras"], "subjects_s2": []}], "Arapiles Doble Grado": [{"sheet": "GrINGI (Plan 2024) 1º A", "title": "Grado en Ingeniería informática (Plan 2024) - 1º A", "turno": "Mañana", "s1": {"LUNES": [{"time": "09:00", "subject": "Cálculo"}, {"time": "10:00", "subject": "Cálculo"}, {"time": "11:00", "subject": "Organización y Gestión de Empresas"}, {"time": "12:00", "subject": "Organización y Gestión de Empresas"}], "MARTES": [{"time": "09:00", "subject": "Fundamentos de la Programación"}, {"time": "10:00", "subject": "Fundamentos de la Programación"}, {"time": "11:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "12:00", "subject": "Estadística Aplicada a la analítica de datos"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Organización y Gestión de Empresas"}, {"time": "10:00", "subject": "Organización y Gestión de Empresas"}, {"time": "11:00", "subject": "Álgebra"}, {"time": "12:00", "subject": "Álgebra"}], "JUEVES": [{"time": "09:00", "subject": "Álgebra"}, {"time": "10:00", "subject": "Álgebra"}, {"time": "11:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "12:00", "subject": "Estadística Aplicada a la analítica de datos"}], "VIERNES": [{"time": "09:00", "subject": "Fundamentos de la Programación"}, {"time": "10:00", "subject": "Fundamentos de la Programación"}, {"time": "11:00", "subject": "Cálculo"}, {"time": "12:00", "subject": "Cálculo"}]}, "s2": {"LUNES": [{"time": "09:00", "subject": "Inglés de Negocios"}, {"time": "10:00", "subject": "Inglés de Negocios"}, {"time": "11:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "12:00", "subject": "Creatividad e Innovación en entornos Digitales"}], "MARTES": [{"time": "09:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "10:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "11:00", "subject": "Inglés de Negocios"}, {"time": "12:00", "subject": "Inglés de Negocios"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Metodologías de Programación"}, {"time": "10:00", "subject": "Metodologías de Programación"}, {"time": "11:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "12:00", "subject": "Creatividad e Innovación en entornos Digitales"}], "JUEVES": [{"time": "09:00", "subject": "Física"}, {"time": "10:00", "subject": "Física"}, {"time": "11:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "12:00", "subject": "Sistemas de Información en una Empresa"}], "VIERNES": [{"time": "09:00", "subject": "Física"}, {"time": "10:00", "subject": "Física"}, {"time": "11:00", "subject": "Metodologías de Programación"}, {"time": "12:00", "subject": "Metodologías de Programación"}]}, "subjects_s1": ["Estadística aplicada a la analítica de datos", "Álgebra", "Cálculo", "Fundamentos de la programación", "Organización y Gestión de Empresas"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 1º B", "title": "Grado en Ingeniería informática (Plan 2024) - 1º B", "turno": "Mañana", "s1": {"LUNES": [{"time": "13:00", "subject": "Física"}, {"time": "14:00", "subject": "Física"}], "MARTES": [{"time": "13:00", "subject": "Física"}, {"time": "14:00", "subject": "Física"}]}, "s2": {}, "subjects_s1": [], "subjects_s2": ["Física"]}, {"sheet": "GrINGI (Plan 2024) 2º A", "title": "Grado en Ingeniería informática (Plan 2024) - 2º A", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "16:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "17:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "18:00", "subject": "Analítica de datos y Algoritmos"}], "MARTES": [{"time": "15:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "16:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "17:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "18:00", "subject": "Analítica de datos y Algoritmos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "16:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "17:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "18:00", "subject": "Interfaces Usuarios-Computador"}], "JUEVES": [{"time": "15:00", "subject": "Sistemas Operativos"}, {"time": "16:00", "subject": "Sistemas Operativos"}, {"time": "17:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "18:00", "subject": "Lenguaje Natural y compiladores"}], "VIERNES": [{"time": "15:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "16:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "17:00", "subject": "Sistemas Operativos"}, {"time": "18:00", "subject": "Sistemas Operativos"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Comunicación en Entornos digitales"}, {"time": "16:00", "subject": "Comunicación en Entornos digitales"}, {"time": "17:00", "subject": "Redes y Conectividad"}, {"time": "18:00", "subject": "Redes y Conectividad"}], "MARTES": [{"time": "15:00", "subject": "Arquitectura de Computadores"}, {"time": "16:00", "subject": "Arquitectura de Computadores"}, {"time": "17:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "18:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "16:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "17:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "18:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}], "JUEVES": [{"time": "15:00", "subject": "Redes y Conectividad"}, {"time": "16:00", "subject": "Redes y Conectividad"}, {"time": "17:00", "subject": "Comunicación en Entornos digitales"}, {"time": "18:00", "subject": "Comunicación en Entornos digitales"}], "VIERNES": [{"time": "15:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "16:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "17:00", "subject": "Arquitectura de Computadores"}, {"time": "18:00", "subject": "Arquitectura de Computadores"}]}, "subjects_s1": ["Sistemas Operativos", "Lenguaje natural y Compiladores", "Interfaces usuario‐computador", "Analítica de Datos y Algoritmos", "Info-ética y Legislación del Dato"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 2º B", "title": "Grado en Ingeniería informática (Plan 2024) - 2º B", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "16:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "17:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "18:00", "subject": "Lenguaje Natural y compiladores"}], "MARTES": [{"time": "15:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "16:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "17:00", "subject": "Sistemas Operativos"}, {"time": "18:00", "subject": "Sistemas Operativos"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "16:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "17:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "18:00", "subject": "Info-ética y Legislación del Dato"}], "JUEVES": [{"time": "15:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "16:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "17:00", "subject": "Sistemas Operativos"}, {"time": "18:00", "subject": "Sistemas Operativos"}], "VIERNES": [{"time": "15:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "16:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "17:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "18:00", "subject": "Interfaces Usuarios-Computador"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Redes y Conectividad"}, {"time": "16:00", "subject": "Redes y Conectividad"}, {"time": "17:00", "subject": "Comunicación en Entornos digitales"}, {"time": "18:00", "subject": "Comunicación en Entornos digitales"}], "MARTES": [{"time": "15:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "16:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "17:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "18:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Arquitectura de Computadores"}, {"time": "16:00", "subject": "Arquitectura de Computadores"}, {"time": "17:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "18:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}], "JUEVES": [{"time": "15:00", "subject": "Comunicación en Entornos digitales"}, {"time": "16:00", "subject": "Comunicación en Entornos digitales"}, {"time": "17:00", "subject": "Redes y Conectividad"}, {"time": "18:00", "subject": "Redes y Conectividad"}], "VIERNES": [{"time": "15:00", "subject": "Arquitectura de Computadores"}, {"time": "16:00", "subject": "Arquitectura de Computadores"}, {"time": "17:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "18:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}]}, "subjects_s1": ["Sistemas Operativos", "Lenguaje natural y Compiladores", "Interfaces usuario‐computador", "Analítica de Datos y Algoritmos", "Info-ética y Legislación del Dato"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 3º A", "title": "Grado en Ingeniería informática (Plan 2024) - 3º A", "turno": "Mañana", "s1": {"LUNES": [{"time": "09:00", "subject": "Bases de Datos"}, {"time": "10:00", "subject": "Bases de Datos"}, {"time": "11:00", "subject": "Inteligencia Artificial"}, {"time": "12:00", "subject": "Inteligencia Artificial"}], "MARTES": [{"time": "09:00", "subject": "Bases de Datos"}, {"time": "10:00", "subject": "Bases de Datos"}, {"time": "11:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "12:00", "subject": "Gestión y Administración de un Centro de Datos"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "10:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "11:00", "subject": "Inteligencia Artificial"}, {"time": "12:00", "subject": "Inteligencia Artificial"}], "JUEVES": [{"time": "09:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "10:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "11:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "12:00", "subject": "Gestión y Administración de un Centro de Datos"}], "VIERNES": [{"time": "09:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "10:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "11:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "12:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}]}, "s2": {"LUNES": [{"time": "09:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "10:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "11:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "12:00", "subject": "Digitalización de la cadena de suministros en la empresa"}], "MARTES": [{"time": "09:00", "subject": "Gestión de Proyectos de Software"}, {"time": "10:00", "subject": "Gestión de Proyectos de Software"}, {"time": "11:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "12:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}], "MIÉRCOLES": [{"time": "09:00", "subject": "Gestión de Proyectos de Software"}, {"time": "10:00", "subject": "Gestión de Proyectos de Software"}, {"time": "11:00", "subject": "Calidad del Software"}, {"time": "12:00", "subject": "Calidad del Software"}], "JUEVES": [{"time": "09:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "10:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "11:00", "subject": "Calidad del Software"}, {"time": "12:00", "subject": "Calidad del Software"}], "VIERNES": [{"time": "09:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "10:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "11:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "12:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}]}, "subjects_s1": ["Bases de Datos", "Gestión y Administración de un Centro de Datos", "Seguridad Informática y Ciberseguridad en la empresa", "Inteligencia Artificial", "Modelos de Digitalización en la empresa"], "subjects_s2": []}], "Tres Cantos": [{"sheet": "GrINGI (Plan 2024) 1º C", "title": "Grado en Ingeniería informática (Plan 2024) - 1º C", "turno": "Mañana", "s1": {"LUNES": [{"time": "10:00", "subject": "Organización y Gestión de Empresas"}, {"time": "11:00", "subject": "Organización y Gestión de Empresas"}, {"time": "12:00", "subject": "Fundamentos de la Programación"}, {"time": "13:00", "subject": "Fundamentos de la Programación"}], "MARTES": [{"time": "10:00", "subject": "Álgebra"}, {"time": "11:00", "subject": "Álgebra"}, {"time": "12:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "13:00", "subject": "Estadística Aplicada a la analítica de datos"}], "MIÉRCOLES": [{"time": "10:00", "subject": "Álgebra"}, {"time": "11:00", "subject": "Álgebra"}, {"time": "12:00", "subject": "Organización y Gestión de Empresas"}, {"time": "13:00", "subject": "Organización y Gestión de Empresas"}], "JUEVES": [{"time": "10:00", "subject": "Cálculo"}, {"time": "11:00", "subject": "Cálculo"}, {"time": "12:00", "subject": "Estadística Aplicada a la analítica de datos"}, {"time": "13:00", "subject": "Estadística Aplicada a la analítica de datos"}], "VIERNES": [{"time": "10:00", "subject": "Cálculo"}, {"time": "11:00", "subject": "Cálculo"}, {"time": "12:00", "subject": "Fundamentos de la Programación"}, {"time": "13:00", "subject": "Fundamentos de la Programación"}]}, "s2": {"LUNES": [{"time": "10:00", "subject": "Inglés de Negocios"}, {"time": "11:00", "subject": "Inglés de Negocios"}, {"time": "12:00", "subject": "Metodologías de Programación"}, {"time": "13:00", "subject": "Metodologías de Programación"}], "MARTES": [{"time": "10:00", "subject": "Física"}, {"time": "11:00", "subject": "Física"}, {"time": "12:00", "subject": "Metodologías de Programación"}, {"time": "13:00", "subject": "Metodologías de Programación"}], "MIÉRCOLES": [{"time": "10:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "11:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "12:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "13:00", "subject": "Sistemas de Información en una Empresa"}], "JUEVES": [{"time": "10:00", "subject": "Inglés de Negocios"}, {"time": "11:00", "subject": "Inglés de Negocios"}, {"time": "12:00", "subject": "Física"}, {"time": "13:00", "subject": "Física"}], "VIERNES": [{"time": "10:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "11:00", "subject": "Creatividad e Innovación en entornos Digitales"}, {"time": "12:00", "subject": "Sistemas de Información en una Empresa"}, {"time": "13:00", "subject": "Sistemas de Información en una Empresa"}]}, "subjects_s1": ["Estadística aplicada a la analítica de datos", "Álgebra", "Cálculo", "Fundamentos de la programación", "Organización y Gestión de Empresas"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 2º C", "title": "Grado en Ingeniería informática (Plan 2024) - 2º C", "turno": "Tarde", "s1": {"LUNES": [{"time": "15:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "16:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "17:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "18:00", "subject": "Interfaces Usuarios-Computador"}], "MARTES": [{"time": "15:00", "subject": "Sistemas Operativos"}, {"time": "16:00", "subject": "Sistemas Operativos"}, {"time": "17:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "18:00", "subject": "Info-ética y Legislación del Dato"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "16:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "17:00", "subject": "Sistemas Operativos"}, {"time": "18:00", "subject": "Sistemas Operativos"}], "JUEVES": [{"time": "15:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "16:00", "subject": "Lenguaje Natural y compiladores"}, {"time": "17:00", "subject": "Info-ética y Legislación del Dato"}, {"time": "18:00", "subject": "Info-ética y Legislación del Dato"}], "VIERNES": [{"time": "15:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "16:00", "subject": "Analítica de datos y Algoritmos"}, {"time": "17:00", "subject": "Interfaces Usuarios-Computador"}, {"time": "18:00", "subject": "Interfaces Usuarios-Computador"}]}, "s2": {"LUNES": [{"time": "15:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "16:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "17:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "18:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}], "MARTES": [{"time": "15:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "16:00", "subject": "Ingeniería y Plataformas avanzadas de desarrollo de Software"}, {"time": "17:00", "subject": "Redes y Conectividad"}, {"time": "18:00", "subject": "Redes y Conectividad"}], "MIÉRCOLES": [{"time": "15:00", "subject": "Comunicación en Entornos digitales"}, {"time": "16:00", "subject": "Comunicación en Entornos digitales"}, {"time": "17:00", "subject": "Arquitectura de Computadores"}, {"time": "18:00", "subject": "Arquitectura de Computadores"}], "JUEVES": [{"time": "15:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "16:00", "subject": "Gestión de la Calidad e Innovación en las Tecnologías de la Información"}, {"time": "17:00", "subject": "Redes y Conectividad"}, {"time": "18:00", "subject": "Redes y Conectividad"}], "VIERNES": [{"time": "15:00", "subject": "Arquitectura de Computadores"}, {"time": "16:00", "subject": "Arquitectura de Computadores"}, {"time": "17:00", "subject": "Comunicación en Entornos digitales"}, {"time": "18:00", "subject": "Comunicación en Entornos digitales"}]}, "subjects_s1": ["Sistemas Operativos", "Lenguaje natural y Compiladores", "Interfaces usuario‐computador", "Analítica de Datos y Algoritmos", "Info-ética y Legislación del Dato"], "subjects_s2": []}, {"sheet": "GrINGI (Plan 2024) 3º C", "title": "Grado en Ingeniería informática (Plan 2024) - 3º C", "turno": "Mañana", "s1": {"LUNES": [{"time": "10:00", "subject": "Inteligencia Artificial"}, {"time": "11:00", "subject": "Inteligencia Artificial"}, {"time": "12:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "13:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}], "MARTES": [{"time": "10:00", "subject": "Bases de Datos"}, {"time": "11:00", "subject": "Bases de Datos"}, {"time": "12:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "13:00", "subject": "Gestión y Administración de un Centro de Datos"}], "MIÉRCOLES": [{"time": "10:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "11:00", "subject": "Seguridad Informática y Ciberseguridad en la empresa"}, {"time": "12:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "13:00", "subject": "Modelos de Digitalización en la empresa"}], "JUEVES": [{"time": "10:00", "subject": "Bases de Datos"}, {"time": "11:00", "subject": "Bases de Datos"}, {"time": "12:00", "subject": "Gestión y Administración de un Centro de Datos"}, {"time": "13:00", "subject": "Gestión y Administración de un Centro de Datos"}], "VIERNES": [{"time": "10:00", "subject": "Inteligencia Artificial"}, {"time": "11:00", "subject": "Inteligencia Artificial"}, {"time": "12:00", "subject": "Modelos de Digitalización en la empresa"}, {"time": "13:00", "subject": "Modelos de Digitalización en la empresa"}]}, "s2": {"LUNES": [{"time": "10:00", "subject": "Gestión de Proyectos de Software"}, {"time": "11:00", "subject": "Gestión de Proyectos de Software"}, {"time": "12:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "13:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}], "MARTES": [{"time": "10:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "11:00", "subject": "Modelos de Prestación de Servicios de Tecnologías de la Información"}, {"time": "12:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "13:00", "subject": "Digitalización de la cadena de suministros en la empresa"}], "MIÉRCOLES": [{"time": "10:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "11:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "12:00", "subject": "Calidad del Software"}, {"time": "13:00", "subject": "Calidad del Software"}], "JUEVES": [{"time": "10:00", "subject": "Gestión de Proyectos de Software"}, {"time": "11:00", "subject": "Gestión de Proyectos de Software"}, {"time": "12:00", "subject": "Calidad del Software"}, {"time": "13:00", "subject": "Calidad del Software"}], "VIERNES": [{"time": "10:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "11:00", "subject": "Diseño e Implementación de los Sistemas de Información"}, {"time": "12:00", "subject": "Digitalización de la cadena de suministros en la empresa"}, {"time": "13:00", "subject": "Digitalización de la cadena de suministros en la empresa"}]}, "subjects_s1": ["Bases de Datos", "Gestión y Administración de un Centro de Datos", "Seguridad Informática y Ciberseguridad en la empresa", "Inteligencia Artificial", "Modelos de Digitalización en la empresa"], "subjects_s2": []}, {"sheet": "Gr INGI 1º C", "title": null, "turno": "", "s1": {"LUNES": [{"time": "10:00", "subject": "Álgebra"}, {"time": "11:00", "subject": "Álgebra"}, {"time": "12:00", "subject": "Estadística Aplicada a la A.D"}, {"time": "13:00", "subject": "Estadística Aplicada a la A.D"}], "MARTES": [{"time": "10:00", "subject": "Fundamentos de la Programación"}, {"time": "11:00", "subject": "Fundamentos de la Programación"}, {"time": "12:00", "subject": "Organización y Gestión de Empresas"}, {"time": "13:00", "subject": "Organización y Gestión de Empresas"}], "MIÉRCOLES": [{"time": "10:00", "subject": "Estadística Aplicada a la A.D"}, {"time": "11:00", "subject": "Estadística Aplicada a la A.D"}, {"time": "12:00", "subject": "Cálculo"}, {"time": "13:00", "subject": "Cálculo"}], "JUEVES": [{"time": "10:00", "subject": "Organización y Gestión de Empresas"}, {"time": "11:00", "subject": "Organización y Gestión de Empresas"}, {"time": "12:00", "subject": "Fundamentos de la Programación"}, {"time": "13:00", "subject": "Fundamentos de la Programación"}], "VIERNES": [{"time": "10:00", "subject": "Cálculo"}, {"time": "11:00", "subject": "Cálculo"}, {"time": "12:00", "subject": "Álgebra"}, {"time": "13:00", "subject": "Álgebra"}]}, "s2": {}, "subjects_s1": [], "subjects_s2": []}]};
+const CAMPUS_COLORS = {"Castellana":"#4f6ef7","Arapiles":"#10b981","Arapiles Doble Grado":"#f59e0b","Tres Cantos":"#f43f5e","Tres Cantos Salud":"#8b5cf6"};
+const MULTI_CAMPUS = true;
+const DAYS = ["LUNES","MARTES","MIÉRCOLES","JUEVES","VIERNES"];
+const TIMES = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00"];
+
+let curCampus = Object.keys(DATA)[0];
+let curGroupIdx = 0;
+let curSem = "s1";
+
+// Build campus pills in header
+var pillsDiv = document.getElementById("campus-pills");
+Object.keys(DATA).forEach(function(campus) {
+  var color = CAMPUS_COLORS[campus] || "#7b82a0";
+  var pill = document.createElement("span");
+  pill.className = "campus-pill";
+  pill.style.background = color + "1a";
+  pill.style.border = "1px solid " + color + "44";
+  pill.style.color = color;
+  pill.innerHTML = '<span class="cpill-dot" style="background:' + color + '"></span>' + campus;
+  pillsDiv.appendChild(pill);
+});
+
+// Build campus tabs if multi
+if (MULTI_CAMPUS) {
+  var tabsDiv = document.getElementById("campus-tabs");
+  Object.keys(DATA).forEach(function(campus) {
+    var color = CAMPUS_COLORS[campus] || "#7b82a0";
+    var btn = document.createElement("button");
+    btn.className = "campus-tab" + (campus === curCampus ? " active" : "");
+    btn.dataset.campus = campus;
+    btn.style.borderBottomColor = campus === curCampus ? color : "transparent";
+    btn.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:' + color + ';margin-right:7px;vertical-align:middle"></span>' + campus;
+    btn.addEventListener("click", function() {
+      curCampus = this.dataset.campus;
+      curGroupIdx = 0;
+      curSem = "s1";
+      var c = CAMPUS_COLORS[curCampus] || "#7b82a0";
+      document.querySelectorAll(".campus-tab").forEach(function(b) {
+        b.classList.toggle("active", b.dataset.campus === curCampus);
+        b.style.borderBottomColor = b.dataset.campus === curCampus ? CAMPUS_COLORS[b.dataset.campus] : "transparent";
+      });
+      buildGroupList();
+      document.getElementById("content").innerHTML = '<div class="empty">← Selecciona un grupo</div>';
+    });
+    tabsDiv.appendChild(btn);
+  });
+}
+
+function buildGroupList() {
+  var list = document.getElementById("grp-list");
+  list.innerHTML = "";
+  var groups = DATA[curCampus] || [];
+  groups.forEach(function(g, i) {
+    var isMañana = (g.turno || "").toLowerCase().includes("ma");
+    var turnoClass = isMañana ? "tt-manana" : "tt-tarde";
+    var turnoShort = isMañana ? "Mañana" : "Tarde";
+    var btn = document.createElement("button");
+    btn.className = "grp-btn" + (i === curGroupIdx ? " active" : "");
+    btn.dataset.idx = i;
+    btn.innerHTML =
+      '<span style="flex:1">' + g.sheet + '</span>' +
+      '<span class="turno-tag ' + turnoClass + '">' + turnoShort + '</span>';
+    btn.addEventListener("click", function() {
+      curGroupIdx = parseInt(this.dataset.idx);
+      document.querySelectorAll(".grp-btn").forEach(function(b) {
+        b.classList.toggle("active", parseInt(b.dataset.idx) === curGroupIdx);
+      });
+      renderContent();
+    });
+    list.appendChild(btn);
+  });
+}
+
+function renderContent() {
+  var groups = DATA[curCampus] || [];
+  var group = groups[curGroupIdx];
+  if (!group) return;
+  var content = document.getElementById("content");
+  var isMañana = (group.turno || "").toLowerCase().includes("ma");
+  var turnoClass = isMañana ? "tp-manana" : "tp-tarde";
+  var campusColor = CAMPUS_COLORS[curCampus] || "#7b82a0";
+
+  var card = document.createElement("div");
+  card.className = "card";
+
+  var head = document.createElement("div");
+  head.className = "card-head";
+  var titleEl = document.createElement("div");
+  titleEl.className = "card-title";
+  titleEl.textContent = group.title || group.sheet;
+  var tp = document.createElement("span");
+  tp.className = "turno-pill " + turnoClass;
+  tp.textContent = group.turno || "TARDE";
+  var cb = document.createElement("span");
+  cb.className = "campus-badge";
+  cb.style.background = campusColor + "1a";
+  cb.style.border = "1px solid " + campusColor + "44";
+  cb.style.color = campusColor;
+  cb.textContent = curCampus;
+  head.appendChild(titleEl);
+  head.appendChild(tp);
+  if (MULTI_CAMPUS) head.appendChild(cb);
+  card.appendChild(head);
+
+  var semRow = document.createElement("div");
+  semRow.className = "sem-row";
+  var tog = document.createElement("div");
+  tog.className = "sem-toggle";
+  var b1 = document.createElement("button");
+  b1.className = "sem-btn" + (curSem === "s1" ? " s1" : "");
+  b1.textContent = "Semestre 1";
+  b1.addEventListener("click", function() { selectSem("s1"); });
+  var b2 = document.createElement("button");
+  b2.className = "sem-btn" + (curSem === "s2" ? " s2" : "");
+  b2.textContent = "Semestre 2";
+  b2.addEventListener("click", function() { selectSem("s2"); });
+  tog.appendChild(b1); tog.appendChild(b2);
+  semRow.appendChild(tog);
+  card.appendChild(semRow);
+
+  var ttWrap = document.createElement("div");
+  ttWrap.className = "tt-wrap"; ttWrap.id = "tt-wrap";
+  card.appendChild(ttWrap);
+
+  var subjSec = document.createElement("div");
+  subjSec.className = "subj-sec"; subjSec.id = "subj-sec";
+  card.appendChild(subjSec);
+
+  content.innerHTML = "";
+  content.appendChild(card);
+  renderTT(group);
+  renderSubjects(group);
+}
+
+function renderTT(group) {
+  var wrap = document.getElementById("tt-wrap");
+  if (!wrap) return;
+  var sched = group[curSem] || {};
+  var usedTimes = {};
+  var activeDays = [];
+  DAYS.forEach(function(d) {
+    if (sched[d] && sched[d].length > 0) {
+      activeDays.push(d);
+      sched[d].forEach(function(s) { usedTimes[s.time] = true; });
+    }
+  });
+  var activeTimes = TIMES.filter(function(t) { return usedTimes[t]; });
+  if (!activeDays.length || !activeTimes.length) {
+    wrap.innerHTML = '<div class="empty">Sin clases este semestre</div>';
+    return;
+  }
+  var lookup = {};
+  activeDays.forEach(function(d) {
+    lookup[d] = {};
+    (sched[d] || []).forEach(function(s) { lookup[d][s.time] = s.subject; });
+  });
+  var table = document.createElement("table");
+  table.className = "tt" + (curSem === "s2" ? " s2mode" : "");
+  var thead = document.createElement("thead");
+  var hr = document.createElement("tr");
+  hr.appendChild(document.createElement("th"));
+  activeDays.forEach(function(d) {
+    var th = document.createElement("th");
+    th.textContent = d;
+    hr.appendChild(th);
+  });
+  thead.appendChild(hr);
+  table.appendChild(thead);
+  var tbody = document.createElement("tbody");
+  activeTimes.forEach(function(t) {
+    var tr = document.createElement("tr");
+    tr.className = "tr";
+    var td0 = document.createElement("td");
+    td0.textContent = t;
+    tr.appendChild(td0);
+    activeDays.forEach(function(d) {
+      var td = document.createElement("td");
+      var subj = lookup[d] && lookup[d][t];
+      if (subj) {
+        var cell = document.createElement("div");
+        cell.className = "sc";
+        cell.title = subj;
+        cell.textContent = subj;
+        td.appendChild(cell);
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.innerHTML = "";
+  wrap.appendChild(table);
+}
+
+function renderSubjects(group) {
+  var sec = document.getElementById("subj-sec");
+  if (!sec) return;
+  var subjects = curSem === "s1" ? (group.subjects_s1 || []) : (group.subjects_s2 || []);
+  if (!subjects.length) { sec.innerHTML = ""; return; }
+  var label = document.createElement("div");
+  label.className = "subj-label";
+  label.textContent = "Asignaturas · Semestre " + (curSem === "s1" ? "1" : "2");
+  var grid = document.createElement("div");
+  grid.className = "subj-grid";
+  subjects.forEach(function(s) {
+    var tag = document.createElement("div");
+    tag.className = "subj-tag";
+    var dot = document.createElement("span");
+    dot.className = "sdot" + (curSem === "s2" ? " s2" : "");
+    tag.appendChild(dot);
+    tag.appendChild(document.createTextNode(s));
+    grid.appendChild(tag);
+  });
+  sec.innerHTML = "";
+  sec.appendChild(label);
+  sec.appendChild(grid);
+}
+
+function selectSem(sem) {
+  curSem = sem;
+  var group = (DATA[curCampus] || [])[curGroupIdx];
+  if (!group) return;
+  renderTT(group);
+  renderSubjects(group);
+  document.querySelectorAll(".sem-btn").forEach(function(b, i) {
+    b.className = "sem-btn";
+    if (i === 0 && sem === "s1") b.classList.add("s1");
+    if (i === 1 && sem === "s2") b.classList.add("s2");
+  });
+}
+
+// Init
+buildGroupList();
+renderContent();
+</script>
+</body>
+</html>
